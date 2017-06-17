@@ -1,19 +1,24 @@
-// FIXME: Import classes
+var GoogleApiClient = require('com.google.android.gms.common.api.GoogleApiClient'),
+    ResultCallback = require('com.google.android.gms.common.api.ResultCallback'),
+    SafetyNet = require('com.google.android.gms.safetynet.SafetyNet'),
+    Activity = require('android.app.Activity');
 
 /*
  * Verifies the current window regarding the given client-ID.
  *
- * @param window {Ti.UI.Window} The current Titanium window (activity) to verify.
  * @param siteKey {String} The site-key used to verify the window.
  * @param callback {Function} The callback to invoked after verifying the request.
  */
-exports.verify = function(window, siteKey, callback) {
+exports.verify = function(siteKey, callback) {
     
-    // FIXME: Change to Hyperloop-based arguments
-    var googleApiClient = new GoogleApiClient.Builder(this)
+    // Receive the current activity
+    // TODO: Use this one or Ti.Android.currentActivity?
+    var activity = new Activity(Ti.App.Android.getTopActivity());
+    
+    var googleApiClient = new GoogleApiClient.Builder(activity)
         .addApi(SafetyNet.API)
-        .addConnectionCallbacks(myMainActivity.this)
-        .addOnConnectionFailedListener(myMainActivity.this)
+        .addConnectionCallbacks(activity)
+        .addOnConnectionFailedListener(activity)
         .build();
         
     SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient, siteKey).setResultCallback(new ResultCallback() {

@@ -9,7 +9,7 @@ var btn = Ti.UI.createButton({
 });
 
 btn.addEventListener('click', function() {
-    reCAPTCHA.verify(win, '<YOUR_SITE_KEY>', function(e) {
+    reCAPTCHA.verify('<YOUR_SITE_KEY>', function(e) {
         if (e.success === false) {
             Ti.API.error('Error verifying current window: ' + e.error);
             return;
