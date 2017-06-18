@@ -21,7 +21,7 @@ exports.verify = function(siteKey, callback) {
         .addOnConnectionFailedListener(activity)
         .build();
         
-    SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient, siteKey).setResultCallback(new ResultCallback() {
+    SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient, siteKey).setResultCallback(new ResultCallback({
         onResult: function(result) {
             Status status = result.getStatus();
 
@@ -39,7 +39,7 @@ exports.verify = function(siteKey, callback) {
                 });
             }
         }
-    });
+    }));
 
     googleApiClient.connect();
 };
