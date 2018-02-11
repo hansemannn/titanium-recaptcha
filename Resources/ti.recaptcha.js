@@ -1,29 +1,43 @@
 var GoogleApiClient = require('com.google.android.gms.common.api.GoogleApiClient'),
     ResultCallback = require('com.google.android.gms.common.api.ResultCallback'),
     SafetyNet = require('com.google.android.gms.safetynet.SafetyNet'),
-    Activity = require('android.app.Activity');
+    Activity = require('android.app.Activity'),
+    _mGoogleApiClient = null,
+    _siteKey = null;
 
 /*
- * Verifies the current window regarding the given client-ID.
+ * Initializes the Google Play Services with a given site key.
  *
  * @param siteKey {String} The site-key used to verify the window.
+ */
+exports.initialize = function(siteKey) {    
+  _siteKey = _siteKey;
+  
+  _mGoogleApiClient = new GoogleApiClient.Builder(new Activity(Ti.Android.currentActivity))
+      .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks({
+          onConnected: function(bundle) { /* NO-OP */ },
+          onConnectionSuspended: function(i) { /* NO-OP */ }
+      }))
+      .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener({
+          onConnectionFailed: function(connectionResult) { /* NO-OP */ }
+      }))
+      .addApi(SafetyNet.API)
+      .build();
+
+  _mGoogleApiClient.connect();
+};
+
+/*
+ * Verifies the current window and returns the result inside a callback.
+ *
  * @param callback {Function} The callback to invoked after verifying the request.
  */
-exports.verify = function(siteKey, callback) {
-    
-    // Receive the current activity
-    // TODO: Use this one or Ti.Android.currentActivity?
-    var activity = new Activity(Ti.App.Android.getTopActivity());
-    
-    var googleApiClient = new GoogleApiClient.Builder(activity)
-        .addApi(SafetyNet.API)
-        .addConnectionCallbacks(activity)
-        .addOnConnectionFailedListener(activity)
-        .build();
-        
-    SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient, siteKey).setResultCallback(new ResultCallback({
+exports.verify = function(callback) {  
+    Ti.API.warn(_mGoogleApiClient);
+
+    SafetyNet.SafetyNetApi.verifyWithRecaptcha(_mGoogleApiClient, _siteKey).setResultCallback(new ResultCallback({
         onResult: function(result) {
-            Status status = result.getStatus();
+            var status = result.getStatus();
 
             if (status != null && status.isSuccess() === true) {
                 callback({
@@ -40,6 +54,4 @@ exports.verify = function(siteKey, callback) {
             }
         }
     }));
-
-    googleApiClient.connect();
 };

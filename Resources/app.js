@@ -4,12 +4,16 @@ var win = Ti.UI.createWindow({
     backgroundColor: '#fff'
 });
 
+win.addEventListener('open', function() {
+  reCAPTCHA.initialize('AIzaSyCZSVOPyILoKeX-mLJUZgMdjnlTOgH7OfQ');
+});
+
 var btn = Ti.UI.createButton({
     title: 'Verify current Window'
 });
 
 btn.addEventListener('click', function() {
-    reCAPTCHA.verify('<YOUR_SITE_KEY>', function(e) {
+    reCAPTCHA.verify(function(e) {
         if (e.success === false) {
             Ti.API.error('Error verifying current window: ' + e.error);
             return;

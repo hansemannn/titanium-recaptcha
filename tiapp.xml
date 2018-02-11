@@ -3,7 +3,7 @@
   xmlns:ti="http://ti.appcelerator.org">
   <id>com.appc.recaptcha</id>
   <name>reCAPTCHA</name>
-  <version>1.0</version>
+  <version>1.0.0</version>
   <publisher>not specified</publisher>
   <url/>
   <description/>
@@ -12,20 +12,14 @@
   <fullscreen>false</fullscreen>
   <navbar-hidden>false</navbar-hidden>
   <analytics>true</analytics>
-  <guid>43fc401e-50c8-4ad6-9222-35e1db323184</guid>
+  <guid>ed60da58-8257-41bd-9eee-35e1db323184</guid>
   <property name="ti.ui.defaultunit" type="string">dp</property>
   <property name="run-on-main-thread" type="bool">true</property>
   <ios/>
-  <android xmlns:android="http://schemas.android.com/apk/res/android">
-      <application>
-          <meta-data android:name="com.google.android.safetynet.ATTEST_API_KEY" android:value="YOUR_API_KEY" />
-      </application>
-  </android>
-  <plugins>
-    <plugin>hyperloop</plugin>
-  </plugins>
+  <android xmlns:android="http://schemas.android.com/apk/res/android" />
   <modules>
-    <module>hyperloop</module>
+    <module version="3.0.2">hyperloop</module>
+    <module>ti.playservices</module>
   </modules>
   <deployment-targets>
     <target device="android">true</target>
@@ -33,5 +27,5 @@
     <target device="iphone">false</target>
     <target device="mobileweb">false</target>
   </deployment-targets>
-  <sdk-version>6.1.0.GA</sdk-version>
+  <sdk-version>7.0.2.GA</sdk-version>
 </ti:app>
