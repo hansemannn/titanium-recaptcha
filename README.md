@@ -1,20 +1,25 @@
 # reCAPTCHA in Appcelerator Titanium
 
-Use the native [reCAPTCHA API](https://developer.android.com/training/safetynet/recaptcha.html) (currently Android-only) in Appcelerator Titanium with Hyperloop.
+Use the native Android [reCAPTCHA API](https://developer.android.com/training/safetynet/recaptcha.html) in Appcelerator Titanium with Hyperloop.
 
-⚠️ This module is still in development and cannot be used, yet! Feel free to check-out the remaining "FIXME" comments to address those.
+⚠️ This module is still in development and cannot be used, yet! Feel free to check-out the 
+remaining "TODO" comments to address those.
 
 ## Example
 ```js
 var reCAPTCHA = require('ti.recaptcha');
 
-reCAPTCHA.verify(win, '<YOUR_SITE_KEY>', function(e) {
+// Initialize service
+reCAPTCHA.initialize('<YOUR_SITE_KEY>');
+
+// Verify current activity
+reCAPTCHA.verify(function(e) {
     if (e.success === false) {
         Ti.API.error('Error verifying current window: ' + e.error);
         return;
     }
 
-    alert('GOOD BOY!');
+    alert('YEY!');
 });
 ```
 Please check [Resources/app.js](./Resources/app.js) for a full example.
